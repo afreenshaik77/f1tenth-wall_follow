@@ -61,15 +61,39 @@ So, in summary, here's what we need to do:
 
 Implement wall following to make the car drive autonomously around the Levine Hall map. Follow the inner walls of Levine. Which means follow left if the car is going counter-clockwise in the loop. (The first race we run will be counter-clockwise). You can implement this node in either C++ or Python.
 
+Test in the [f1tenth_gym_ros](https://github.com/f1tenth/f1tenth_gym_ros/tree/dev-jazzy) simulator on the `levine_blocked` map (`map_path: 'maps/levine_blocked'` in `config/sim.yaml`): it is the Levine loop with its doorways sealed, so the car cannot wander out. The autograder drives your node around a copy of that map with the two facing door recesses halfway down the west hallway walled off, because a two-beam wall follower steers into them; everything else is identical. The grading map ships with the simulator as `maps/levine_blocked_grading`; set `map_path: 'maps/levine_blocked_grading'` in `config/sim.yaml` to test on it. Both maps come with a centerline, so the simulator counts your laps (`/ego_racecar/lap_count`, and a "completed lap" line in the bridge log).
+
+Your node must subscribe to `/scan` and publish `AckermannDriveStamped` on `/drive`, and it must work when started with a plain `ros2 run wall_follow <executable>`: the autograder passes no parameter file, so bake your tuned gains, desired distance and speeds into the node's defaults.
+
 ## V. Deliverables and Submission
 
-**Deliverable 1**: After you're finished, update the entire skeleton package directory with your `wall_follow` package and directly commit and push to the repo Github classroom created for you. Your commited code should start and run in simulation smoothly.
+**Deliverable 1**: After you're finished, update the entire skeleton package directory with your `wall_follow` package and directly commit and push to the repo Classroom 50 created for you. Your committed code should start and run in simulation smoothly, this includes building as a package with any dependencies included as part of the ``package.xml``.
 
-**Deliverable 2**: Make a screen cast of running your wall following node in the simulation. Include a link to the video on YouTube in **`SUBMISSION.md`**.
+**Deliverable 2**: Make a screen cast of running your wall following node in the simulation: at least one full counter-clockwise lap of Levine, following the inner wall. Upload your video to YouTube (unlisted) or Google Drive — for Drive, set sharing to **"Anyone with the link can view"** or we cannot grade it — and include the link in **`SUBMISSION.md`**.
+
+### Submitting
+
+We'll be using Classroom 50 throughout the semester to manage submissions for lab assignments. You can commit and push your work as often as you need, but a plain push does **not** count as a submission. When you're ready to submit, push a tag named `submission`:
+
+```bash
+git push                            # your commits
+git tag submission
+git push origin submission          # this triggers the autograder
+```
+
+The autograder builds your package, probes your controller, and drives it around Levine in the simulator, then posts your score as a **Release** on your repo (check the Releases page or the commit's status check a few minutes after you tag). To resubmit, move the tag to a new commit:
+
+```bash
+git tag -f submission
+git push --force origin submission
+```
+The last ``submission`` push before the deadline is counted as your final submission and its grade will be your lab's grade.
+
+**The autograder finds your work by name.** Use the names the deliverables specify: package `wall_follow` with an executable it can start with `ros2 run wall_follow <executable>` (the skeleton's `wall_follow_node`), subscribing `/scan` and publishing `/drive`. Otherwise, the autograder will not be able to grade your work and your submission may get the wrong grade.
 
 ## VI: Grading Rubric
 
-- Compilation: **10** Points
-- Implemented PID: **40** Points
-- Tuned PID: **40** Points
-- Video: **10** Points
+- Compilation: **10** Points (autograded)
+- Implemented PID: **40** Points (autograded without the simulator: your node is fed scans of a straight corridor with the car too close to one wall, too close to the other, and turned toward each wall, and must steer the right way in each case — whichever wall you follow)
+- Tuned PID: **40** Points (autograded in simulation: one counter-clockwise lap of the grading map, starting on the south hallway heading east, without touching a wall; a run that ends early earns partial credit for the fraction of the loop covered)
+- Video: **10** Points (TA-graded from the link in `SUBMISSION.md`: YouTube unlisted, or Google Drive shared as "Anyone with the link can view")
