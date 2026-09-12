@@ -44,7 +44,7 @@ $$D_{t+1}=D_t+L\mbox{sin}(\alpha)$$
 
 We're almost there. Our control algorithm gives us a steering angle for the VESC, but we would also like to slow the car down around corners for safety. We can compute the speed in a step-like fashion based on the steering angle, or equivalently the calculated error, so that as the angle exceeds progressively larger amounts, the speed is cut in discrete increments. For this lab, a good starting point for the speed control algorithm is:
 
-- If the steering angle is between 0 degrees and 10 degrees, the car should drive at 1.5 meters per second.
+- If the steering angle is between 0 degrees and 10 degrees, the car should drive at 1.5 meters per second (or more).
 - If the steering angle is between 10 degrees and 20 degrees, the speed should be 1.0 meters per second.
 - Otherwise, the speed should be 0.5 meters per second.
 
