@@ -87,7 +87,7 @@ The autograder builds your package, probes your controller, and drives it around
 git tag -f submission
 git push --force origin submission
 ```
-The last ``submission`` push before the deadline is counted as your final submission and its grade will be your lab's grade.
+The best scored ``submission`` push is counted as your final submission and its grade will be your lab's grade.
 
 **The autograder finds your work by name.** Use the names the deliverables specify: package `wall_follow` with an executable it can start with `ros2 run wall_follow <executable>` (the skeleton's `wall_follow_node`), subscribing `/scan` and publishing `/drive`. Otherwise, the autograder will not be able to grade your work and your submission may get the wrong grade.
 
