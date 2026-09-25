@@ -91,6 +91,8 @@ The best scored ``submission`` push is counted as your final submission and its 
 
 **The autograder finds your work by name.** Use the names the deliverables specify: package `wall_follow` with an executable it can start with `ros2 run wall_follow <executable>` (the skeleton's `wall_follow_node`), subscribing `/scan` and publishing `/drive`. Otherwise, the autograder will not be able to grade your work and your submission may get the wrong grade.
 
+**Only the topics the lab needs.** Wall following drives on the LiDAR alone: your nodes may read `/scan` and publish on `/drive`, plus topics only your own nodes use (markers, a filtered scan). The autograder watches the ROS graph while your code runs: a node that reads anything else the simulator publishes (the car's odometry, `/tf`, the lap counter) or publishes on a topic the simulator or the autograder listens to (`/initialpose`, which teleports the car, `/ego_racecar/odom`, the lap counter, ...) gets every line that ran your code scored 0.
+
 ## VI: Grading Rubric
 
 - Compilation: **10** Points (autograded)
